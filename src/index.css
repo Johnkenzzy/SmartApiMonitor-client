@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+/* --------------------------
+   1. Tokens (CSS variables)
+--------------------------- */
+@layer base {
+  :root {
+    --primary: #a3e635; /* lemon green */
+    --primary-dark: #84cc16;
+    --primary-light: #bef264;
+    --text: #1f2937; /* gray-800 */
+    --background: #ffffff;
+    --radius: 0.5rem;
+  }
+}
+
+/* --------------------------
+   2. Base styles
+--------------------------- */
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+  }
+
+  body {
+    @apply bg-[var(--background)] text-[var(--text)] font-sans;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight text-[var(--text)];
+  }
+
+  a {
+    @apply text-[var(--primary)] hover:text-[var(--primary-dark)] underline-offset-4 hover:underline;
+  }
+}
+
+/* --------------------------
+   3. Components
+--------------------------- */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium 
+           bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)] 
+           focus:outline-none focus:ring-2 focus:ring-[var(--primary-light)] disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium 
+           bg-gray-200 text-gray-800 hover:bg-gray-300 
+           focus:outline-none focus:ring-2 focus:ring-gray-400;
+  }
+
+  .card {
+    @apply rounded-2xl shadow-md bg-white p-6 border border-gray-100;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-gray-300 px-3 py-2 text-sm
+           focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)];
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply bg-green-100 text-green-700;
+  }
+
+  .badge-error {
+    @apply bg-red-100 text-red-700;
+  }
+}
+
+/* --------------------------
+   4. Utilities
+--------------------------- */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .scrollbar-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+}
