@@ -31,8 +31,8 @@ export interface Metric {
   id: string;
   monitor_id: string;
   is_up: boolean;
-  latency_ms: number;
-  checked_at: string;
+  response_ms: number;
+  timestamp: string;
 }
 
 export interface Alert {
