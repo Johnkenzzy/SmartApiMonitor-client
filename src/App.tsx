@@ -8,6 +8,12 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import DashboardPage from "./pages/DashboardPage";
+import MonitorsListPage from "./pages/monitors/MonitorsListPage";
+import MonitorViewPage from "./pages/monitors/MonitorViewPage";
+import MonitorCreateForm from "./components/forms.tsx/MonitorCreateForm";
+import MonitorUpdateForm from "./components/forms.tsx/MonitorUpdateForm";
+import MetricsPage from "./pages/metrics/MonitorMetricsPage";
+import MetricsListPage from "./pages/metrics/MetricsListPage";
 
 function App() {
   return (
@@ -23,6 +29,12 @@ function App() {
         {/* Private routes wrapped with AuthLayout */}
         <Route element={<AuthLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/monitors" element={<MonitorsListPage />} />
+          <Route path="/monitors/:id" element={<MonitorViewPage />} />
+          <Route path="/monitors/create" element={<MonitorCreateForm />} />
+          <Route path="/monitors/:id/edit" element={<MonitorUpdateForm />} />
+          <Route path="/monitors/:id/metrics" element={<MetricsPage />} />
+          <Route path="/metrics" element={<MetricsListPage />} />
         </Route>
       </Routes>
     </Router>
