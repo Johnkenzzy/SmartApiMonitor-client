@@ -1,10 +1,11 @@
 // src/components/layout/AuthLayout.tsx
 import { useEffect, useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 
 export function AuthLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Guard: redirect if not authenticated
   useEffect(() => {
@@ -56,6 +57,12 @@ export function AuthLayout() {
 
             {/* Desktop actions */}
             <div className="hidden md:flex items-center gap-3">
+              {/* Show Dashboard button if not already on dashboard */}
+              {location.pathname !== "/dashboard" && (
+                <Link to="/dashboard" className="btn">
+                  Dashboard
+                </Link>
+              )}
               <button className="btn" onClick={handleLogout}>
                 Logout
               </button>
@@ -108,6 +115,16 @@ export function AuthLayout() {
         {menuOpen && (
           <div className="md:hidden border-t border-gray-100 bg-white/80 backdrop-blur-sm">
             <div className="px-4 py-3 space-y-2">
+              {/* Dashboard on mobile */}
+              {location.pathname !== "/dashboard" && (
+                <Link
+                  to="/dashboard"
+                  onClick={() => setMenuOpen(false)}
+                  className="block w-full text-center btn"
+                >
+                  Dashboard
+                </Link>
+              )}
               <button
                 onClick={() => {
                   handleLogout();

@@ -42,9 +42,19 @@ export default function MonitorUpdateForm() {
   if (!monitor) return <div>Monitor not found.</div>;
 
   return (
-    <div className="max-w-md mx-auto space-y-4">
+    <div className="max-w-md mx-auto space-y-6">
+      {/* Back button */}
+      <button
+        type="button"
+        onClick={() => navigate(`/monitors/${monitor.id}`)}
+        className="px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-100 transition"
+      >
+        ← Back to Monitor
+      </button>
+
       <h1 className="text-2xl font-bold">Update Monitor</h1>
       {error && <div className="text-red-500">{error}</div>}
+
       <form className="space-y-3" onSubmit={handleSubmit}>
         <input
           className="input"

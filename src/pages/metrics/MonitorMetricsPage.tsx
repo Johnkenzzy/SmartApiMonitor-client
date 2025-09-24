@@ -31,12 +31,9 @@ export default function MetricsPage() {
     const fetchData = async () => {
       try {
         setLoading(true);
-
-        // Get monitor info
         const monitorData = await getMonitor(id);
         setMonitor(monitorData);
 
-        // Fetch metrics, top 10
         const metricsData = await listMetrics({ monitor_id: id, limit: 100 });
         setMetrics(metricsData);
       } catch {
@@ -54,47 +51,66 @@ export default function MetricsPage() {
   if (!monitor) return <div>Monitor not found.</div>;
   if (metrics.length === 0)
     return (
-      <div className="text-gray-500">
-        No metrics available for this monitor yet.
+      <div className="max-w-9xl mx-auto px-6 lg:px-12 space-y-8">
+        {/* Navigation buttons */}
+        <div className="flex justify-between items-center gap-2">
+          <Link to="/metrics" className="btn-secondary">
+            ← All Metrics
+          </Link>
+          <Link to={`/monitors/${monitor.id}`} className="btn-secondary">
+            Back to Monitor
+          </Link>
+        </div>
+        <div className="text-gray-500">
+          No metrics available for this monitor yet.
+        </div>
       </div>
     );
 
-  // Top 10 metrics by latency (or value)
   const topMetrics = [...metrics]
     .sort((a, b) => b.response_ms - a.response_ms)
     .slice(0, 10);
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">
-          Metrics for{" "}
-          <span className="text-[var(--primary)]">{monitor.name}</span>
-        </h1>
+    <div className="max-w-9xl mx-auto px-6 lg:px-12 space-y-8">
+      {/* Navigation buttons */}
+      <div className="flex justify-between items-center gap-2">
+        <Link to="/metrics" className="btn-secondary">
+          ← All Metrics
+        </Link>
         <Link to={`/monitors/${monitor.id}`} className="btn-secondary">
           Back to Monitor
         </Link>
       </div>
 
+      {/* Title */}
+      <h1 className="text-3xl font-bold">
+        Metrics for{" "}
+        <span className="text-[var(--primary)]">{monitor.name}</span>
+      </h1>
+
       {/* Top 10 metrics table */}
-      <div className="card">
-        <h2 className="text-lg font-semibold mb-2">Top 10 Metrics</h2>
-        <table className="w-full text-left border-collapse">
+      <div className="card w-full bg-white shadow rounded-2xl p-6 overflow-x-auto">
+        <h2 className="text-xl font-semibold mb-4">Top 10 Metrics</h2>
+        <table className="min-w-full text-left border-collapse table-auto">
           <thead>
-            <tr className="border-b">
-              <th className="py-2">Timestamp</th>
-              <th className="py-2">Latency (ms)</th>
-              <th className="py-2">Status</th>
+            <tr className="border-b bg-gray-50">
+              <th className="py-3 px-6">Timestamp</th>
+              <th className="py-3 px-6">Latency (ms)</th>
+              <th className="py-3 px-6">Status</th>
             </tr>
           </thead>
           <tbody>
             {topMetrics.map((metric) => (
-              <tr key={metric.id} className="border-b">
-                <td className="py-2">
+              <tr
+                key={metric.id}
+                className="border-b hover:bg-gray-50 transition-colors"
+              >
+                <td className="py-2 px-6">
                   {new Date(metric.timestamp).toLocaleString()}
                 </td>
-                <td className="py-2">{metric.response_ms}</td>
-                <td className="py-2">
+                <td className="py-2 px-6">{metric.response_ms}</td>
+                <td className="py-2 px-6">
                   {metric.is_up ? (
                     <span className="badge badge-success">UP</span>
                   ) : (
@@ -108,9 +124,9 @@ export default function MetricsPage() {
       </div>
 
       {/* Metrics graph */}
-      <div className="card">
-        <h2 className="text-lg font-semibold mb-2">Metrics Over Time</h2>
-        <div className="w-full h-64">
+      <div className="card w-full bg-white shadow rounded-2xl p-6">
+        <h2 className="text-xl font-semibold mb-4">Metrics Over Time</h2>
+        <div className="w-full h-96">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={metrics}
@@ -129,6 +145,9 @@ export default function MetricsPage() {
                 type="monotone"
                 dataKey="response_ms"
                 stroke="var(--primary)"
+                strokeWidth={2}
+                dot={{ r: 3 }}
+                activeDot={{ r: 5 }}
               />
             </LineChart>
           </ResponsiveContainer>
