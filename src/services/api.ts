@@ -40,7 +40,7 @@ export interface Alert {
   monitor_id: string;
   channel: string;
   message: string;
-  created_at: string;
+  triggered_at: string;
 }
 
 export interface ApiSuccess {
