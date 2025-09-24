@@ -14,6 +14,7 @@ import MonitorCreateForm from "./components/forms.tsx/MonitorCreateForm";
 import MonitorUpdateForm from "./components/forms.tsx/MonitorUpdateForm";
 import MetricsPage from "./pages/metrics/MonitorMetricsPage";
 import MetricsListPage from "./pages/metrics/MetricsListPage";
+import AlertsListPage from "./pages/alerts/AlertsListsPage";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/monitors/:id/edit" element={<MonitorUpdateForm />} />
           <Route path="/monitors/:id/metrics" element={<MetricsPage />} />
           <Route path="/metrics" element={<MetricsListPage />} />
+          <Route path="/alerts" element={<AlertsListPage />} />
         </Route>
       </Routes>
     </Router>

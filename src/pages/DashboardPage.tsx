@@ -64,7 +64,9 @@ export function DashboardPage() {
               <Link to="/metrics/" className="flex flex-col">
                 <button className="btn">View Metrics</button>
               </Link>
-              <button className="btn">View Alerts</button>
+              <Link to="/alerts" className="flex flex-col">
+                <button className="btn">View Alerts</button>
+              </Link>
             </div>
           </div>
         </div>
