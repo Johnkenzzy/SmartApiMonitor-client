@@ -48,23 +48,32 @@ export default function MetricsPage() {
     fetchData();
   }, [id]);
 
-  if (loading) return <div>Loading metrics...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
-  if (!monitor) return <div>Monitor not found.</div>;
+  if (loading)
+    return <div className="text-center py-8">Loading metrics...</div>;
+  if (error)
+    return <div className="text-red-500 text-center py-8">{error}</div>;
+  if (!monitor)
+    return <div className="text-center py-8">Monitor not found.</div>;
 
   if (metrics.length === 0) {
     return (
-      <div className="max-w-9xl mx-auto px-6 lg:px-12 space-y-8">
+      <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-12 space-y-8">
         {/* Navigation buttons */}
-        <div className="flex justify-between items-center gap-2">
-          <Link to="/metrics" className="btn-secondary">
+        <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
+          <Link
+            to="/metrics"
+            className="btn-secondary w-full sm:w-auto text-center"
+          >
             ← All Metrics
           </Link>
-          <Link to={`/monitors/${monitor.id}`} className="btn-secondary">
+          <Link
+            to={`/monitors/${monitor.id}`}
+            className="btn-secondary w-full sm:w-auto text-center"
+          >
             Back to Monitor
           </Link>
         </div>
-        <div className="text-gray-500">
+        <div className="text-gray-500 text-center sm:text-left">
           No metrics available for this monitor yet.
         </div>
       </div>
@@ -76,71 +85,84 @@ export default function MetricsPage() {
     .slice(0, 10);
 
   return (
-    <div className="max-w-9xl mx-auto px-6 lg:px-12 space-y-8">
+    <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-12 space-y-8">
       {/* Navigation buttons */}
-      <div className="flex justify-between items-center gap-2">
-        <Link to="/metrics" className="btn-secondary">
+      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
+        <Link
+          to="/metrics"
+          className="btn-secondary w-full sm:w-auto text-center"
+        >
           ← All Metrics
         </Link>
-        <Link to={`/monitors/${monitor.id}`} className="btn-secondary">
+        <Link
+          to={`/monitors/${monitor.id}`}
+          className="btn-secondary w-full sm:w-auto text-center"
+        >
           Back to Monitor
         </Link>
       </div>
 
       {/* Title */}
-      <h1 className="text-3xl font-bold">
+      <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left">
         The detailed metrics summary for{" "}
         <span className="text-[var(--primary)]">{monitor.name}</span>
       </h1>
 
       {/* Top 10 metrics table */}
-      <div className="card w-full bg-white shadow rounded-2xl p-6 overflow-x-auto">
-        <h2 className="text-xl font-semibold mb-4">Top 10 Metrics</h2>
-        <table className="min-w-full text-left border-collapse table-auto">
-          <thead>
-            <tr className="border-b bg-gray-50">
-              <th className="py-3 px-6">Timestamp</th>
-              <th className="py-3 px-6">Latency (ms)</th>
-              <th className="py-3 px-6">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {topMetrics.map((metric) => (
-              <tr
-                key={metric.id}
-                onClick={() => setSelectedMetric(metric)}
-                className="border-b hover:bg-gray-50 transition-colors cursor-pointer"
-              >
-                <td className="py-2 px-6">
-                  {new Date(metric.timestamp).toLocaleString()}
-                </td>
-                <td className="py-2 px-6">{metric.response_ms}</td>
-                <td className="py-2 px-6">
-                  {metric.is_up ? (
-                    <span className="badge badge-success">UP</span>
-                  ) : (
-                    <span className="badge badge-error">DOWN</span>
-                  )}
-                </td>
+      <div className="card w-full bg-white shadow rounded-2xl p-4 sm:p-6 overflow-x-auto">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4">
+          Top 10 Metrics
+        </h2>
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-left border-collapse text-sm sm:text-base">
+            <thead>
+              <tr className="border-b bg-gray-50">
+                <th className="py-2 sm:py-3 px-4 sm:px-6">Timestamp</th>
+                <th className="py-2 sm:py-3 px-4 sm:px-6">Latency (ms)</th>
+                <th className="py-2 sm:py-3 px-4 sm:px-6">Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {topMetrics.map((metric) => (
+                <tr
+                  key={metric.id}
+                  onClick={() => setSelectedMetric(metric)}
+                  className="border-b hover:bg-gray-50 transition-colors cursor-pointer"
+                >
+                  <td className="py-2 px-4 sm:px-6 whitespace-nowrap">
+                    {new Date(metric.timestamp).toLocaleString()}
+                  </td>
+                  <td className="py-2 px-4 sm:px-6">{metric.response_ms}</td>
+                  <td className="py-2 px-4 sm:px-6">
+                    {metric.is_up ? (
+                      <span className="badge badge-success">UP</span>
+                    ) : (
+                      <span className="badge badge-error">DOWN</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Metrics graph */}
-      <div className="card w-full bg-white shadow rounded-2xl p-6">
-        <h2 className="text-xl font-semibold mb-4">Metrics Over Time</h2>
-        <div className="w-full h-96">
+      <div className="card w-full bg-white shadow rounded-2xl p-4 sm:p-6">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4">
+          Metrics Over Time
+        </h2>
+        <div className="w-full h-64 sm:h-80 md:h-96">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={metrics}
-              margin={{ top: 20, right: 30, bottom: 20, left: 0 }}
+              margin={{ top: 20, right: 20, bottom: 20, left: 0 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="timestamp"
                 tickFormatter={(value) => new Date(value).toLocaleTimeString()}
+                minTickGap={30}
               />
               <YAxis />
               <Tooltip
@@ -151,8 +173,8 @@ export default function MetricsPage() {
                 dataKey="response_ms"
                 stroke="var(--primary)"
                 strokeWidth={2}
-                dot={{ r: 3 }}
-                activeDot={{ r: 5 }}
+                dot={{ r: 2 }}
+                activeDot={{ r: 4 }}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -162,11 +184,11 @@ export default function MetricsPage() {
       {/* Metric details popup */}
       {selectedMetric && (
         <div
-          className="fixed inset-0 flex items-center justify-center z-50"
+          className="fixed inset-0 flex items-center justify-center z-50 px-4"
           onClick={() => setSelectedMetric(null)}
         >
           <div
-            className="bg-white rounded-2xl shadow-xl p-6 max-w-md w-full relative animate-fadeIn"
+            className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 w-full max-w-md relative animate-fadeIn"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
@@ -177,8 +199,10 @@ export default function MetricsPage() {
               ✕
             </button>
 
-            <h3 className="text-xl font-semibold mb-4">Metric Details</h3>
-            <div className="space-y-2">
+            <h3 className="text-lg sm:text-xl font-semibold mb-4">
+              Metric Details
+            </h3>
+            <div className="space-y-2 text-sm sm:text-base">
               <p>
                 <strong>Timestamp:</strong>{" "}
                 {new Date(selectedMetric.timestamp).toLocaleString()}
