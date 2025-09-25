@@ -7,7 +7,7 @@ import axios, {
 } from "axios";
 
 const API_BASE_URL: string =
-  import.meta.env.VITE_API_URL || "http://localhost:8000";
+  import.meta.env.VITE_API_URL || "https://smart-api-5e3j.onrender.com";
 
 interface RefreshResponse {
   access_token: string;
