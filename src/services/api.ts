@@ -33,6 +33,7 @@ export interface Metric {
   is_up: boolean;
   response_ms: number;
   timestamp: string;
+  error: string;
 }
 
 export interface Alert {
