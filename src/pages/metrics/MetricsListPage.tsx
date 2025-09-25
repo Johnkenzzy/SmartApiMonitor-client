@@ -129,11 +129,11 @@ export default function MetricsListPage() {
       {/* Metric details modal */}
       {selectedMetric && (
         <div
-          className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+          className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 px-4"
           onClick={() => setSelectedMetric(null)} // Close when clicking outside
         >
           <div
-            className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative"
+            className="bg-white rounded-xl shadow-lg w-[90%] sm:w-full max-w-md p-6 relative max-h-[80vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()} // Prevent close when clicking inside
           >
             <button
@@ -143,7 +143,7 @@ export default function MetricsListPage() {
               ✕
             </button>
             <h2 className="text-xl font-semibold mb-4">Metric Details</h2>
-            <div className="space-y-3">
+            <div className="space-y-3 text-sm sm:text-base">
               <p>
                 <span className="font-medium">ID:</span> {selectedMetric.id}
               </p>
