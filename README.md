@@ -1,73 +1,172 @@
-# React + TypeScript + Vite
+# 🌐 Smart API Monitor – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Smart API Monitor is a **modern, production-ready dashboard application** for tracking and monitoring APIs.  
+It provides users with an intuitive interface to **manage monitors, view metrics, and receive alerts** in real time.  
 
-Currently, two official plugins are available:
+This repository contains the **frontend codebase** built with **React + TypeScript**, designed to seamlessly interact with the Smart API Monitor backend service.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+![Landing Page](./screenshots/landing.png)  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- 📊 **Monitor Management**
+  - Create, update, and delete API monitors.
+  - View details of each monitor.
+- 📈 **Metrics Tracking**
+  - Fetch and display API performance metrics.
+  - Charts and visualization for top 10 metrics.
+  - Auto-updating counts with `100+` cap for large datasets.
+- 🔔 **Alerts System**
+  - Display recent alerts triggered by monitor states.
+  - Delete and manage alerts.
+- 🏠 **Dashboard Overview**
+  - Quick stats for monitors, metrics, and alerts.
+  - Responsive design with cards and summaries.
+- 🔐 **Authentication**
+  - Secure login, logout, and registration flows.
+  - Password visibility toggle.
+  - Redirect to login after registration.
+- 🖥️ **Responsive UI**
+  - Fully mobile-friendly.
+  - Scales across desktop, tablet, and large screens.
+- ⚡ **Performance Optimizations**
+  - Client-side caching with React Query.
+  - Fast builds via Vite.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📸 Screenshots
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 🏠 Dashboard
+![Dashboard](./screenshots/dashboard.png)  
+*Overview with total monitors, metrics, and alerts.*
+
+### 📈 Monitors
+![Metrics Page](./screenshots/monitors.png)  
+*All monitors - active and inactive.*
+
+### 📈 Metrics
+![Metrics Page](./screenshots/metrics.png)  
+*Chart visualization for API metrics.*
+
+### 🔔 Alerts
+![Alerts Page](./screenshots/alerts.png)  
+*Recent alerts list with delete support.*
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** [React](https://reactjs.org/) + [Vite](https://vitejs.dev/)  
+- **Language:** [TypeScript](https://www.typescriptlang.org/)  
+- **State Management:** [React Query](https://tanstack.com/query) + Context API  
+- **UI Styling:** [Tailwind CSS](https://tailwindcss.com/)  
+- **Routing:** [React Router](https://reactrouter.com/)  
+- **API Layer:** Axios client wrapper (`get`, `post`, `put`, `del`)  
+- **Charts & Visualization:** [Recharts](https://recharts.org/)  
+
+---
+
+## 📂 Project Structure
+
+```bash
+├── src/
+│   ├── App.tsx
+│   ├── assets/
+│   │   └── react.svg
+│   ├── components/
+│   │   ├── forms/
+│   │   └── layout/
+│   ├── hooks/
+│   │   ├── index.ts
+│   │   ├── useAdmin.ts
+│   │   ├── useAlerts.ts
+│   │   ├── useAuth.ts
+│   │   ├── useMetrics.ts
+│   │   └── useMonitors.ts
+│   ├── index.css
+│   ├── main.tsx
+│   ├── pages/
+│   │   ├── DashboardPage.tsx
+│   │   ├── HomePage.tsx
+│   │   ├── alerts/
+│   │   ├── auth/
+│   │   ├── metrics/
+│   │   └── monitors/
+│   ├── services/
+│   │   ├── api.ts
+│   │   └── client.ts
+│   ├── types/
+│   │   └── vite-env.d.ts
+│   └── utils/
+│       └── format.ts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Getting Started
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Clone the Repository
+```bash
+git clone https://github.com/Johnkenzzy/SmartApiMonitor-client.git
+cd smart-api-monitor-frontend
 ```
+
+2. Install Dependencies
+```
+npm install
+```
+
+3. Setup Environment Variables
+- Create a .env file in the project root:
+```bash
+VITE_API_BASE_URL=http://localhost:8000/api
+```
+
+4. Run Development Server
+```bash
+npm run dev
+```
+
+---
+
+## 📊 Core Workflows
+
+- **Authentication**
+  - **Register** → Redirect to login (no tokens returned on registration).
+  - **Login** → Save access_token + refresh_token in localStorage.
+  - **Logout** → Clear tokens and redirect to login.
+- **Dashboard**
+  - Displays total monitors, metrics, alerts.
+  - If metrics/alerts > 100 → shows 100+.
+- **Monitors**
+  - Create, list, update, delete monitors.
+- **Metrics**
+  - Fetch and visualize metrics.
+  - Chart of latest 10 entries.
+- **Alerts**
+  - List and delete alerts.
+- **Responsive UI**
+  - Works across mobile, tablet, and desktop screens.
+
+  ---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+- Fork this repo
+- Create a feature branch: git checkout -b feature/awesome-feature
+- Commit changes: git commit -m 'Add new awesome feature'
+- Push branch: git push origin feature/awesome-feature
+- Open a Pull Request 🎉
+
+---
+
+##  📝 License
+This project is licensed under the MIT License.
+
+- Johnkennedy Umeh
