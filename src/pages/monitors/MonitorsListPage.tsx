@@ -63,7 +63,7 @@ export default function MonitorsListPage() {
 
       {/* Monitors Grid */}
       {monitors.length === 0 ? (
-        <div className="text-center py-20 bg-gray-50 rounded-xl shadow-inner">
+        <div className="text-center py-20 p-10 bg-gray-50 rounded-xl shadow-inner">
           <p className="text-lg text-gray-600 mb-4">
             No monitors yet. Create your first one!
           </p>
