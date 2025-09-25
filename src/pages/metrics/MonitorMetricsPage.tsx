@@ -25,6 +25,8 @@ export default function MetricsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [selectedMetric, setSelectedMetric] = useState<Metric | null>(null);
+
   useEffect(() => {
     if (!id) return;
 
@@ -49,7 +51,8 @@ export default function MetricsPage() {
   if (loading) return <div>Loading metrics...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
   if (!monitor) return <div>Monitor not found.</div>;
-  if (metrics.length === 0)
+
+  if (metrics.length === 0) {
     return (
       <div className="max-w-9xl mx-auto px-6 lg:px-12 space-y-8">
         {/* Navigation buttons */}
@@ -66,6 +69,7 @@ export default function MetricsPage() {
         </div>
       </div>
     );
+  }
 
   const topMetrics = [...metrics]
     .sort((a, b) => b.response_ms - a.response_ms)
@@ -85,7 +89,7 @@ export default function MetricsPage() {
 
       {/* Title */}
       <h1 className="text-3xl font-bold">
-        Metrics for{" "}
+        The detailed metrics summary for{" "}
         <span className="text-[var(--primary)]">{monitor.name}</span>
       </h1>
 
@@ -104,7 +108,8 @@ export default function MetricsPage() {
             {topMetrics.map((metric) => (
               <tr
                 key={metric.id}
-                className="border-b hover:bg-gray-50 transition-colors"
+                onClick={() => setSelectedMetric(metric)}
+                className="border-b hover:bg-gray-50 transition-colors cursor-pointer"
               >
                 <td className="py-2 px-6">
                   {new Date(metric.timestamp).toLocaleString()}
@@ -153,6 +158,52 @@ export default function MetricsPage() {
           </ResponsiveContainer>
         </div>
       </div>
+
+      {/* Metric details popup */}
+      {selectedMetric && (
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50"
+          onClick={() => setSelectedMetric(null)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-xl p-6 max-w-md w-full relative animate-fadeIn"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setSelectedMetric(null)}
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+            >
+              ✕
+            </button>
+
+            <h3 className="text-xl font-semibold mb-4">Metric Details</h3>
+            <div className="space-y-2">
+              <p>
+                <strong>Timestamp:</strong>{" "}
+                {new Date(selectedMetric.timestamp).toLocaleString()}
+              </p>
+              <p>
+                <strong>Latency:</strong> {selectedMetric.response_ms} ms
+              </p>
+              <p>
+                <strong>Status:</strong>{" "}
+                {selectedMetric.is_up ? (
+                  <span className="text-green-600 font-medium">UP</span>
+                ) : (
+                  <span className="text-red-600 font-medium">DOWN</span>
+                )}
+              </p>
+              {selectedMetric.error && (
+                <p>
+                  <strong>Error:</strong>{" "}
+                  <span className="text-red-500">{selectedMetric.error}</span>
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

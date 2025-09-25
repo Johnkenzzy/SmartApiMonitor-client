@@ -13,6 +13,7 @@ export default function MetricsListPage() {
   const [metricsMap, setMetricsMap] = useState<Record<string, Metric[]>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedMetric, setSelectedMetric] = useState<Metric | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,7 +75,6 @@ export default function MetricsListPage() {
             className="bg-white shadow-md rounded-xl p-5 hover:shadow-lg transition"
           >
             <div className="flex justify-between items-center mb-4 gap-2">
-              {/* Monitor name with truncation */}
               <h2 className="text-lg font-semibold text-gray-900 flex-1 truncate">
                 {monitor.name}
               </h2>
@@ -82,7 +82,7 @@ export default function MetricsListPage() {
                 to={`/monitors/${monitor.id}/metrics`}
                 className="flex-shrink-0 text-sm px-3 py-1 rounded-lg border border-gray-200 hover:bg-gray-100 transition"
               >
-                View All
+                View Summary
               </Link>
             </div>
 
@@ -93,9 +93,10 @@ export default function MetricsListPage() {
               )}
 
               {metricsMap[monitor.id]?.map((metric) => (
-                <div
+                <button
                   key={metric.id}
-                  className={`flex justify-between items-center px-3 py-2 rounded-lg border transition ${
+                  onClick={() => setSelectedMetric(metric)}
+                  className={`flex justify-between items-center px-3 py-2 rounded-lg border transition text-left w-full ${
                     metric.is_up
                       ? "bg-green-50 border-green-200 hover:bg-green-100"
                       : "bg-red-50 border-red-200 hover:bg-red-100"
@@ -118,12 +119,54 @@ export default function MetricsListPage() {
                   <div className="text-sm font-medium text-gray-700">
                     {metric.response_ms} ms
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </div>
         ))}
       </div>
+
+      {/* Metric details modal */}
+      {selectedMetric && (
+        <div
+          className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+          onClick={() => setSelectedMetric(null)} // Close when clicking outside
+        >
+          <div
+            className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative"
+            onClick={(e) => e.stopPropagation()} // Prevent close when clicking inside
+          >
+            <button
+              onClick={() => setSelectedMetric(null)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+            >
+              ✕
+            </button>
+            <h2 className="text-xl font-semibold mb-4">Metric Details</h2>
+            <div className="space-y-3">
+              <p>
+                <span className="font-medium">ID:</span> {selectedMetric.id}
+              </p>
+              <p>
+                <span className="font-medium">Timestamp:</span>{" "}
+                {new Date(selectedMetric.timestamp).toLocaleString()}
+              </p>
+              <p>
+                <span className="font-medium">Status:</span>{" "}
+                {selectedMetric.is_up ? "UP ✅" : "DOWN ❌"}
+              </p>
+              <p>
+                <span className="font-medium">Latency:</span>{" "}
+                {selectedMetric.response_ms} ms
+              </p>
+              <p>
+                <span className="font-medium">Monitor ID:</span>{" "}
+                {selectedMetric.monitor_id}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
